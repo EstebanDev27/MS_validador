@@ -1,0 +1,50 @@
+steps:
+  # 1️⃣ Construir la imagen Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-image-dynamics/app:latest',
+        '.'
+      ]
+
+  # 2️⃣ Subir la imagen a Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/my-image-dynamics/app:latest'
+      ]
+
+  # 3️⃣ Obtener credenciales del clúster GKE
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: gcloud
+    args:
+      [
+        'container', 'clusters', 'get-credentials',
+        'django-cluster',
+        '--zone=us-central1-a',
+        '--project=$PROJECT_ID'
+      ]
+
+  # 4️⃣ Aplicar Deployment y Service (crea o actualiza)
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', './deployment.yaml']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=django-cluster'
+
+  # 5️⃣ Rolling restart para actualizar los pods con la nueva imagen
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['rollout', 'restart', 'deployment/dynamics-app-deployment']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=django-cluster'
+
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/my-image-dynamics/app:latest'
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+

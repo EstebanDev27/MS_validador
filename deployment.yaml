@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamics-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dynamics-app   # NO cambiar esto si el Deployment ya existe
+  template:
+    metadata:
+      labels:
+        app: dynamics-app  # Debe coincidir con el selector
+    spec:
+      containers:
+      - name: dynamics-container  # Debe coincidir con cloudbuild.yaml
+        image: us-central1-docker.pkg.dev/agente-piloto/my-image-dynamics/app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamics-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: dynamics-app
+  ports:
+  - protocol: TCP
+    port: 86
+    targetPort: 3000
