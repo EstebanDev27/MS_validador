@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # 7. Define el comando que se ejecutará
-CMD [ "node", "app.js" ]
+CMD [ "node", "src/index.js" ]
