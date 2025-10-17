@@ -22,7 +22,6 @@ app.get('/', async (req, res) => {
     
   }
 });
-console.log("xdxd")
 
 
 app.listen(PORT, () => {

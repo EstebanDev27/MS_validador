@@ -4,7 +4,7 @@ steps:
     args:
       [
         'build',
-        '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-image-dynamics/app:latest',
+        '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/mi-repo-esteban/app:latest',
         '.'
       ]
 
@@ -13,7 +13,7 @@ steps:
     args:
       [
         'push',
-        'us-central1-docker.pkg.dev/$PROJECT_ID/my-image-dynamics/app:latest'
+        'us-central1-docker.pkg.dev/$PROJECT_ID/mi-repo-esteban/app:latest'
       ]
 
   # 3️⃣ Obtener credenciales del clúster GKE
@@ -42,7 +42,7 @@ steps:
       - 'CLOUDSDK_CONTAINER_CLUSTER=django-cluster'
 
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/my-image-dynamics/app:latest'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/mi-repo-esteban/app:latest'
 
 
 options:
