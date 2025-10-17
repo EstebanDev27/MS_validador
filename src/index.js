@@ -11,7 +11,6 @@ app.get('/', async (req, res) => {
     res.status(200).json({
         message:"Ya estás conectado :D "
     })
-    e
 
   } catch (error) {
 
