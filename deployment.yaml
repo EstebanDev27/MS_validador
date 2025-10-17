@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: dynamics-container  # Debe coincidir con cloudbuild.yaml
-        image: us-central1-docker.pkg.dev/agente-piloto/my-image-dynamics/app:latest
+        image: us-central1-docker.pkg.dev/agente-piloto/mi-repo-esteban/app:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
