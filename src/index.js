@@ -5,6 +5,9 @@ const app = express();
 
 app.use("/integrador",HubSpot);
 
+app.get('/', async (req , res ) => {
+  res.status(200)
+})
 const PORT = 3000;
 
 
