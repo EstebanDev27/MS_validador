@@ -1,26 +1,13 @@
 import express from 'express';
+// 1. Importas el pool. Ahora tienes acceso a la BD desde esta variable.
+import HubSpot from "./routes/HubspotRoutes.js"
 
 const app = express();
+
+app.use("/hubspot",HubSpot);
+
 const PORT = 3000;
 
-
-app.get('/', async (req, res) => {
-
-  try {
-
-    res.status(200).json({
-        message:"Ya estás conectado :D "
-    })
-
-  } catch (error) {
-
-    console.error('❌ Error en la ruta /:', error.message);
-    res.status(500).json({ error: 'Error interno del servidor.' });
-
-  } finally {
-    
-  }
-});
 
 
 app.listen(PORT, () => {
