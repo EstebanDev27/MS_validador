@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res ) => {
     try {
-        console.log("Cuerpo de respuesta ",req.body);
+        console.log("Cuerpo de respuesta ",req);
         res.status(200).json({
             message:"POST a petición /hubspot/"
         })

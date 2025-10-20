@@ -3,18 +3,15 @@ import HubSpot from "./routes/HubspotRoutes.js"
 
 const app = express();
 
-app.use("/integrador",HubSpot);
 
 app.get('/', async (req , res ) => {
   res.sendStatus(200)
-})
+});
+
+app.use("/integrador",HubSpot);
 
 const PORT = 3000;
 
-
-
-
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor Express escuchando en el puerto ${PORT}`);
-  console.log(`🔗 http://localhost:${PORT} xdxdxdxd`);
+  console.log(`https://comunicacionesaliat.com/integrador/`);
 });
