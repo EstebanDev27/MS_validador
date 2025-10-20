@@ -5,7 +5,7 @@ const router = Router()
 router.get('/', async (req, res) => {
 
   try {
-        console.log("Consultaste bien la api :D!")
+        console.log("Consultaste bien la api :D! este es el mismo pod xdxddx")
 
         res.json({
             message:"Api funcionando xd"
