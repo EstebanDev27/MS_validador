@@ -2,6 +2,7 @@ import { Router } from "express";
 
 const router = Router()
 
+
 router.get('/', async (req, res) => {
 
   try {
@@ -18,9 +19,27 @@ router.get('/', async (req, res) => {
   } 
 });
 
+router.get('/:type', async (req, res) => {
+
+  try {
+        const { type } = req.params;
+        console.log("Tipo de consulta a hacer ",type)
+
+        res.json({
+            message:"Api funcionando xd"
+        })  
+
+  } catch (error) {
+
+    res.status(500).json({ error: 'Error interno del servidor.' });
+
+  } 
+});
+
 router.post('/', async (req, res ) => {
     try {
         console.log("Cuerpo de respuesta ",req);
+
         res.status(200).json({
             message:"POST a petición /hubspot/"
         })
