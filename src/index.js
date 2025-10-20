@@ -4,7 +4,7 @@ import HubSpot from "./routes/HubspotRoutes.js"
 
 const app = express();
 
-app.use("/hubspot",HubSpot);
+app.use("/integrador",HubSpot);
 
 const PORT = 3000;
 
