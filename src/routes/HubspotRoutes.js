@@ -1,9 +1,8 @@
 import { Router } from "express";
-import { validateRequest } from "../controllers/ValidatorController";
-import IDynamics from "../interfaces/IDynamics";
-import IHubspot from "../interfaces/IHubspot";
-import IRequest from "../interfaces/IRequest";
-import createHttpTask from "../tasks";
+import { validateRequest } from "../controllers/ValidatorController.js";
+import IDynamics from "../interfaces/IDynamics.js";
+import IHubspot from "../interfaces/IHubspot.js";
+import IRequest from "../interfaces/IRequest.js";
 
 const router = Router();
 
@@ -45,41 +44,37 @@ router.get('/:type', async (req, res) => {
 
 router.post('/:type', async (req, res ) => {
     var isValid = false;
-
+    
     try {
-
+        
         const { type } = req.params;
 
-        if( type == "qr_integracion_hubspot"){
-            isValid = validateRequest(req.body,IDynamics)
-        }else if( type == 'qr_integracion_dynamics'){
-            isValid = validateRequest(req.body,IHubspot)
-        }else {
-            isValid = validateRequest(req.body,IRequest)
+        /* console.log("Param obtenido ",type); */
+        console.log("Request obtendio ",req.body)
+
+        /* Switch para validación de caso */
+        switch (type) {
+            case "qr_integracion_hubspot":
+                isValid = await validateRequest(req.body,IHubspot)
+                break;
+            case "qr_integracion_dynamics":
+                isValid = await validateRequest(req.body,IDynamics);
+                break;
+            default:
+                isValid = await validateRequest(req.body,IRequest);
+                break;
         }
 
-        if(isValid){
-            const queue = createHttpTask(req.body)
-        }else{
-            /* Aqui voy a almacenar los logs en MongoDB */
-        }
-
-
-
-        
-
-
-
-        /* Controller para tipo de consulta */
-
-        
-        console.log("Cuerpo de respuesta ",req);
+        console.log("Es valido ",isValid)
 
         res.status(200).json({
             message:`Petición POST: ${type}`
         })
     } catch (error) {
-        
+        console.log("Error al valdiar datos en ruta /integrador/:type ")
+        res.status(500).json({
+            message:`Error al validar datos ${error}`
+        })
     }
 })
 
