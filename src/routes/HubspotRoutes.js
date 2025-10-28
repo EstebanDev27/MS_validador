@@ -70,7 +70,8 @@ router.post('/:type', async (req, res ) => {
         console.log("Es valido ",isValid)
 
         res.status(200).json({
-            message:`Petición POST: ${type}`
+            message:`Petición POST: ${type}`,
+            missing:isValid
         })
     } catch (error) {
         console.log("Error al valdiar datos en ruta /integrador/:type ")
