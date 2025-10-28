@@ -49,8 +49,8 @@ router.post('/:type', async (req, res ) => {
         
         const { type } = req.params;
 
-        /* console.log("Param obtenido ",type); */
-        console.log("Request obtendio ",req.body)
+        console.log("Param obtenido ",type);
+        console.log("Request obtendio ",req.body.properties)
 
         /* Switch para validación de caso */
         switch (type) {
