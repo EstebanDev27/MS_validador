@@ -49,13 +49,15 @@ router.post('/:type', async (req, res ) => {
         
         const { type } = req.params;
 
-        console.log("Param obtenido ",type);
-        console.log("Request obtendio ",req.body?.properties)
+        //console.log("Param obtenido ",type);
+        //console.log("Request obtendio ",req.body?.properties);
+
+
 
         /* Switch para validación de caso */
         switch (type) {
             case "qr_integracion_hubspot":
-                isValid = await validateRequest(req.body,IHubspot)
+                isValid = await validateRequest(req.body?.properties,IHubspot)
                 break;
             case "qr_integracion_dynamics":
                 isValid = await validateRequest(req.body,IDynamics);
