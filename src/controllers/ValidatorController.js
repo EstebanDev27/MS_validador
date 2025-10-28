@@ -14,7 +14,6 @@ export const validateRequest = async (data, schema) => {
     }
 
     const missing = [];
-    const found = [];
 
     try {
         for (const key in schema) {
@@ -27,10 +26,7 @@ export const validateRequest = async (data, schema) => {
             let hasValue = false;
             if (foundAlias) {
                 const property = data[foundAlias];
-                
-                // Verificamos que el objeto 'property' exista, 
-                // tenga la clave 'value', y que 'value' no sea nulo,
-                // indefinido o un string vacío.
+
                 if (property && 
                     property.hasOwnProperty('value') && 
                     property.value !== null && 
@@ -38,7 +34,6 @@ export const validateRequest = async (data, schema) => {
                     property.value !== ''
                 ) {
                     hasValue = true;
-                    found.push(key)
                 }
             }
 
@@ -50,8 +45,7 @@ export const validateRequest = async (data, schema) => {
 
         return {
             valid: missing.length === 0,
-            missing,
-            found
+            missing
         };
 
     } catch (error) {

@@ -63,7 +63,7 @@ router.post('/:type', async (req, res ) => {
                 isValid = await validateRequest(req.body.properties,IDynamics);
                 break;
             default:
-                isValid = await validateRequest(req.body,IRequest);
+                isValid = await validateRequest(req.body.properties,IRequest);
                 break;
         }
 
