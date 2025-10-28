@@ -69,7 +69,7 @@ router.post('/:type', async (req, res ) => {
 
         console.log("Es valido ",isValid)
 
-        if(!isValid){
+        if(!isValid.valid){
             return res.status(400).json({
                 message:`Petición POST: ${type}`,
                 datos_incompletos:isValid.missing
