@@ -14,6 +14,7 @@ export const validateRequest = async (data, schema) => {
     }
 
     const missing = [];
+    const found = [];
 
     try {
         for (const key in schema) {
@@ -37,6 +38,7 @@ export const validateRequest = async (data, schema) => {
                     property.value !== ''
                 ) {
                     hasValue = true;
+                    found.push(property)
                 }
             }
 
@@ -48,7 +50,8 @@ export const validateRequest = async (data, schema) => {
 
         return {
             valid: missing.length === 0,
-            missing
+            missing,
+            found
         };
 
     } catch (error) {
