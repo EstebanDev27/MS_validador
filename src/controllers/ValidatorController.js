@@ -38,7 +38,7 @@ export const validateRequest = async (data, schema) => {
                     property.value !== ''
                 ) {
                     hasValue = true;
-                    found.push(property)
+                    found.push(key)
                 }
             }
 
