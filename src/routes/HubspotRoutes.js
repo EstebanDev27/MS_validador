@@ -57,22 +57,21 @@ router.post('/:type', async (req, res ) => {
         /* Switch para validación de caso */
         switch (type) {
             case "qr_integracion_hubspot":
-                isValid = await validateRequest(req.body?.properties,IHubspot)
+                isValid = await validateRequest(req.body.properties,IHubspot)
                 break;
             case "qr_integracion_dynamics":
-                isValid = await validateRequest(req.body,IDynamics);
+                isValid = await validateRequest(req.body.properties,IDynamics);
                 break;
             default:
                 isValid = await validateRequest(req.body,IRequest);
                 break;
         }
 
-        console.log("Es valido ",isValid)
-
         if(!isValid.valid){
             return res.status(400).json({
                 message:`Petición POST: ${type}`,
-                datos_incompletos:isValid.missing
+                resultado:`datos_incompletos ${isValid.missing}`,
+                estatus_integracion_dynamics:"datos_incompletos"
             })
         }
 
