@@ -1,7 +1,7 @@
 import { getDb } from "../database/index.js";
 
 const SaveLog =  async (log) => {
-    console.log("Log a guardar ",{message:"Data almacenada desde local :D ",status:200,timestamp: new Date()});
+    console.log("Log a guardar ",log);
     try {
         const db = getDb();
 
