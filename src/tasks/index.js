@@ -4,17 +4,15 @@ import { CloudTasksClient } from '@google-cloud/tasks';
 const client = new CloudTasksClient();
 
 
-const createHttpTask = async (payload) => {
+const createHttpTask = async (payload , url) => {
 
-  console.log("Payload recibido ",payload)
+  console.log("Payload recibido ",payload,url)
 
   try {
     const project = 'agente-piloto';
     const queue = 'dynamics-integration-queue';
     const location = 'us-east1';
   
-    /* URL DEL SIGUIENTE MICROSERVICIO */
-    const url =`https://comunicacionesaliat.com/contact-sync-filter`;
     const inSeconds = 180;
     
     
@@ -24,7 +22,7 @@ const createHttpTask = async (payload) => {
     const task = {
       httpRequest: {
         headers: {
-          'Content-Type': 'text/plain', // Set content type to ensure compatibility your application's request parsing
+          'Content-Type': 'text/plain',
         },
         httpMethod: 'POST',
         url,

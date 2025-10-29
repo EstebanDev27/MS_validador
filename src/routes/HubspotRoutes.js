@@ -46,7 +46,7 @@ router.post('/:type', async (req, res ) => {
         } */
 
         /* Pruebas */
-        createHttpTask(req.body);
+        createHttpTask(req.body,`https://comunicacionesaliat.com/integrador/contact-sync-filter`);
 
         return res.status(202).json({
                 message:"Datos validados correctamente"
