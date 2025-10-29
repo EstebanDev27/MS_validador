@@ -50,7 +50,7 @@ router.post('/:type', async (req, res ) => {
         
         const { type } = req.params;
         console.log("Body obtendio ",req.body)
-        const log = SaveLog(req.body);
+        const log = SaveLog(req.body.properties);
 
         //console.log("Param obtenido ",type);
         //console.log("Request obtendio ",req.body?.properties);
