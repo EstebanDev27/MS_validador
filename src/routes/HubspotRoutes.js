@@ -5,6 +5,7 @@ import IDynamics from "../interfaces/IDynamics.js";
 import IHubspot from "../interfaces/IHubspot.js";
 import IRequest from "../interfaces/IRequest.js";
 import createHttpTask from "../tasks/index.js";
+
 const router = Router();
 
 router.post('/:type', async (req, res ) => {
@@ -59,5 +60,19 @@ router.post('/:type', async (req, res ) => {
         })
     }
 })
+
+router.post('/contact-sync-filter', async (req , res) => {
+    res.status(200).json({
+        message:"POST"
+    })
+})
+
+router.get('/contact-sync-filter', async (req , res) => {
+    res.status(200).json({
+        message:"GET"
+    })
+})
+
+
 
 export default router;

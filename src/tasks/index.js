@@ -6,13 +6,15 @@ const client = new CloudTasksClient();
 
 const createHttpTask = async (payload) => {
 
+  console.log("Payload recibido ",payload)
+
   try {
     const project = 'agente-piloto';
     const queue = 'dynamics-integration-queue';
     const location = 'us-east1';
   
     /* URL DEL SIGUIENTE MICROSERVICIO */
-    const url =`https://comunicacionesaliat.com/sync`;
+    const url =`https://comunicacionesaliat.com/contact-sync-filter`;
     const inSeconds = 180;
     
     

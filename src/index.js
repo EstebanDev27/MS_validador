@@ -28,7 +28,7 @@ async function startServer() {
     });
 
   } catch (err) {
-    console.error("No se pudo iniciar el servidor: xd", err);
+    console.error("No se pudo iniciar el servidor: ", err);
     process.exit(1);
   }
 }

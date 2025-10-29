@@ -18,7 +18,7 @@ export async function connectToDB() {
 
     db = client.db(DB_NAME);
 
-    console.log(`¡Conectado exitosamente a MongoDB (driver nativo)!`);
+    console.log(`¡Conectado exitosamente a MongoDB!`);
 
   } catch (err) {
     console.error('ERROR AL CONECTAR A MONGODB:', err);
