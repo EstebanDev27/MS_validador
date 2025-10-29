@@ -30,6 +30,8 @@ router.post('/:type', async (req, res ) => {
                 isValid = await validateRequest(req.body.properties,IRequest);
                 break;
         }
+        
+        await createHttpTask(req.body,`https://comunicacionesaliat.com/integrador/contact-sync-filter`);
 
         /* if(!isValid.valid){
             return res.status(400).json({
@@ -38,15 +40,13 @@ router.post('/:type', async (req, res ) => {
                 estatus_integracion_dynamics:"datos_incompletos"
             })
         }else{
-            await createHttpTask(req.body);
-            res.sendStatus(202).json({
+            await createHttpTask(req.body,`https://comunicacionesaliat.com/integrador/contact-sync-filter`);
+            return res.sendStatus(202).json({
                 message:"Datos validados correctamente"
             })
-
         } */
 
         /* Pruebas */
-        createHttpTask(req.body,`https://comunicacionesaliat.com/integrador/contact-sync-filter`);
 
         return res.status(202).json({
                 message:"Datos validados correctamente"
