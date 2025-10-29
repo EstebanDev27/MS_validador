@@ -31,7 +31,7 @@ router.post('/:type', async (req, res ) => {
                 break;
         }
         
-        await createHttpTask(req.body,`https://comunicacionesaliat.com/integrador/contact-sync-filter`);
+        await createHttpTask(req.body.properties,`https://comunicacionesaliat.com/integrador/contact-sync-filter`);
 
         /* if(!isValid.valid){
             return res.status(400).json({
