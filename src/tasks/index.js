@@ -30,7 +30,7 @@ const createHttpTask = async (payload , url) => {
     };
     
     if (payload) {
-      task.httpRequest.body = Buffer.from(payload).toString('base64');
+      task.httpRequest.body = Buffer.from(JSON.stringify(payload)).toString('base64');
     }
     
     if (inSeconds) {
