@@ -45,8 +45,8 @@ router.post('/:type', async (req, res ) => {
         } */
 
         /* Pruebas */
-        await createHttpTask(req.body);
-            res.sendStatus(202).json({
+        createHttpTask(req.body);
+        res.sendStatus(202).json({
                 message:"Datos validados correctamente"
         })
 
