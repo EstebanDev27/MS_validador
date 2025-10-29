@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { validateRequest } from "../controllers/ValidatorController.js";
+import SaveLog from "../controllers/LogsController.js";
 import IDynamics from "../interfaces/IDynamics.js";
 import IHubspot from "../interfaces/IHubspot.js";
 import IRequest from "../interfaces/IRequest.js";
@@ -48,6 +49,8 @@ router.post('/:type', async (req, res ) => {
     try {
         
         const { type } = req.params;
+        console.log("Body obtendio ",req.body)
+        const log = SaveLog(req.body);
 
         //console.log("Param obtenido ",type);
         //console.log("Request obtendio ",req.body?.properties);
