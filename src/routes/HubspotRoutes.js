@@ -4,44 +4,8 @@ import SaveLog from "../controllers/LogsController.js";
 import IDynamics from "../interfaces/IDynamics.js";
 import IHubspot from "../interfaces/IHubspot.js";
 import IRequest from "../interfaces/IRequest.js";
-
+import createHttpTask from "../tasks/index.js";
 const router = Router();
-
-
-router.get('/', async (req, res) => {
-
-  try {
-        console.log("Consultaste bien la api :D! este es el mismo pod")
-
-        res.json({
-            message:"Api funcionando xd"
-        })  
-
-  } catch (error) {
-
-    res.status(500).json({ error: 'Error interno del servidor.' });
-
-  } 
-});
-
-router.get('/:type', async (req, res) => {
-
-  try {
-        const { type } = req.params;
-
-        console.log("Tipo de consulta a hacer ",type)
-
-        res.sendStatus(200).json({
-            message:"Api funcionando xd"
-        })  
-
-  } catch (error) {
-
-    res.status(500).json({ error: 'Error interno del servidor.' });
-
-  } 
-});
-
 
 router.post('/:type', async (req, res ) => {
     var isValid = false;
@@ -49,18 +13,14 @@ router.post('/:type', async (req, res ) => {
     try {
         
         const { type } = req.params;
-        
+
+        /* Guardar propiedades que manda hubspot */
         await SaveLog(req.body.properties);
 
-        //console.log("Param obtenido ",type);
-        //console.log("Request obtendio ",req.body?.properties);
-
-
-
-        /* Switch para validación de caso */
+        /* Switch para validación de propiedades por caso */
         switch (type) {
             case "qr_integracion_hubspot":
-                isValid = await validateRequest(req.body.properties,IHubspot)
+                isValid = await validateRequest(req.body.properties,IHubspot);
                 break;
             case "qr_integracion_dynamics":
                 isValid = await validateRequest(req.body.properties,IDynamics);
@@ -70,17 +30,26 @@ router.post('/:type', async (req, res ) => {
                 break;
         }
 
-        if(!isValid.valid){
+        /* if(!isValid.valid){
             return res.status(400).json({
                 message:`Petición POST: ${type}`,
                 resultado:`datos_incompletos ${isValid.missing}`,
                 estatus_integracion_dynamics:"datos_incompletos"
             })
-        }
+        }else{
+            await createHttpTask(req.body);
+            res.sendStatus(202).json({
+                message:"Datos validados correctamente"
+            })
 
-        res.send(200).json({
-            message:"Datos validados correctamente"
+        } */
+
+        /* Pruebas */
+        await createHttpTask(req.body);
+            res.sendStatus(202).json({
+                message:"Datos validados correctamente"
         })
+
 
     } catch (error) {
         console.log("Error al valdiar datos en ruta /integrador/:type ")
@@ -89,28 +58,5 @@ router.post('/:type', async (req, res ) => {
         })
     }
 })
-
-router.put('/', async (req, res ) => {
-    try {
-        console.log("Cuerpo de respuesta ",req.body);
-        res.status(200).json({
-            message:"PUT a petición /hubspot/"
-        })
-    } catch (error) {
-        
-    }
-})
-
-router.delete('/', async (req, res ) => {
-    try {
-        console.log("Cuerpo de respuesta ",req.body);
-        res.status(200).json({
-            message:"DELETE a petición /hubspot/"
-        })
-    } catch (error) {
-        
-    }
-})
-
 
 export default router;

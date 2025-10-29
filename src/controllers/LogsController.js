@@ -1,13 +1,18 @@
 import { getDb } from "../database/index.js";
 
+/**
+ * Valida un request de HubSpot según un esquema flexible.
+ * @param {Object} log - El objeto 'properties' recibido de HubSpot (req.body.properties)
+*/
+
+/* Función para almacenar logs en mongo */
 const SaveLog =  async (log) => {
-    console.log("Log a guardar ",log);
     try {
         const db = getDb();
 
-        const resultado = await db.collection('logs').insertOne({log,timestamp: new Date().toISOString().replace('T'," ")});
+        await db.collection('logs').insertOne({log,timestamp: new Date().toISOString().replace('T'," ")});
         
-        return resultado;
+        return;
 
     } catch (error) {
         console.error("Error al guardar el log:", error);

@@ -33,5 +33,4 @@ async function startServer() {
   }
 }
 
-// 4. Llama a la función de arranque
 startServer();

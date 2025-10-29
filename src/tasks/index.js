@@ -5,9 +5,9 @@ const client = new CloudTasksClient();
 
 
 const createHttpTask = async (payload) => {
-  // TODO(developer): Uncomment these lines and replace with your values.
+
   const project = 'agente-piloto';
-  const queue = 'dynamics-integration-queue';
+  const queue = 'dynamics-policy-queue';
   const location = 'us-east1';
 
   /* URL DEL SIGUIENTE MICROSERVICIO */
