@@ -5,7 +5,7 @@ const SaveLog =  async (log) => {
     try {
         const db = getDb();
 
-        const resultado = await db.collection('logs').insertOne(log);
+        const resultado = await db.collection('logs').insertOne({log,timestamp: new Date().toISOString().replace('T'," ")});
         
         return resultado;
 
