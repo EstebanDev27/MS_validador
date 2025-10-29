@@ -54,7 +54,7 @@ router.post('/:type', async (req, res ) => {
 
 
     } catch (error) {
-        console.log("Error al valdiar datos en ruta /integrador/:type ")
+        console.log("Error al valdiar datos en ruta /integrador/:type ",error)
         res.status(500).json({
             message:`Error al validar datos ${error}`
         })
