@@ -8,11 +8,11 @@ const createHttpTask = async (payload) => {
 
   try {
     const project = 'agente-piloto';
-    const queue = 'dynamics-policy-queue';
+    const queue = 'dynamics-integration-queue';
     const location = 'us-east1';
   
     /* URL DEL SIGUIENTE MICROSERVICIO */
-    const url = '';
+    const url =`https://comunicacionesaliat.com/sync`;
     const inSeconds = 180;
     
     
