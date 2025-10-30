@@ -9,6 +9,8 @@ import createHttpTask from "../tasks/index.js";
 const router = Router();
 
 router.post('/:type', async (req, res ) => {
+
+    const commonURL = "https://comunicacionesaliat.com/integrador/";
     var isValid = false;
     
     try {
@@ -30,8 +32,10 @@ router.post('/:type', async (req, res ) => {
                 isValid = await validateRequest(req.body.properties,IRequest);
                 break;
         }
+
+        console.log(` URL a enviar al task${commonURL}${type}`)
         
-        await createHttpTask(req.body.properties,`https://comunicacionesaliat.com/integrador/contact-sync-filter`);
+        await createHttpTask(req.body.properties,`${commonURL}${type}`);
 
         /* if(!isValid.valid){
             return res.status(400).json({
