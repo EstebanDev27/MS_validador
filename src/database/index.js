@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 const DB_NAME = 'save-logs'; 
-const MONGO_URI = `mongodb://madmin:DonKara-{0127}@mongo-save-logs:27017/save-logs?authSource=admin`;
+const MONGO_URI = process.env.MONGO_URI
 
 const client = new MongoClient(MONGO_URI);
 
