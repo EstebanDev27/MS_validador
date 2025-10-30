@@ -22,11 +22,37 @@ router.post('/:type', async (req, res ) => {
 
         /* Switch para validación de propiedades por caso */
         switch (type) {
+            case "web":
+                break;
             case "qr_integracion_hubspot":
                 isValid = await validateRequest(req.body.properties,IHubspot);
                 break;
             case "qr_integracion_dynamics":
                 isValid = await validateRequest(req.body.properties,IDynamics);
+                break;
+            case "qr_integracion_opp_dynamics":
+                isValid = await validateRequest(req.body.properties,IHubspot);
+                break;
+            case "partner":
+                isValid = await validateRequest(req.body.properties,IHubspot);
+                break;
+            case "partnerv2":
+                isValid = await validateRequest(req.body.properties,IHubspot);
+                break;
+            case "academic_partnerv2":
+                isValid = await validateRequest(req.body.properties,IHubspot);
+                break;
+            case "academic":
+                isValid = await validateRequest(req.body.properties,IHubspot);
+                break;
+            case "academic_partner":
+                isValid = await validateRequest(req.body.properties,IHubspot);
+                break;
+            case "opportunity":
+                isValid = await validateRequest(req.body.properties,IHubspot);
+                break;
+            case "opportunity_partner":
+                isValid = await validateRequest(req.body.properties,IHubspot);
                 break;
             default:
                 isValid = await validateRequest(req.body.properties,IRequest);
@@ -34,7 +60,6 @@ router.post('/:type', async (req, res ) => {
         }
 
         if(!isValid.valid){
-            await createHttpTask(req.body.properties,`${commonURL}contact-sync-filter`);
             return res.status(400).json({
                 message:`Petición POST: ${type}`,
                 resultado:`datos_incompletos ${isValid.missing}`,
