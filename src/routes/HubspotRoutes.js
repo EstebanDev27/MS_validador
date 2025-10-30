@@ -33,28 +33,26 @@ router.post('/:type', async (req, res ) => {
                 break;
         }
 
-        console.log(` URL a enviar al task${commonURL}${type}`)
-        
-        await createHttpTask(req.body.properties,`${commonURL}contact-sync-filter`);
-
-        /* if(!isValid.valid){
+        if(!isValid.valid){
             return res.status(400).json({
                 message:`Petición POST: ${type}`,
                 resultado:`datos_incompletos ${isValid.missing}`,
                 estatus_integracion_dynamics:"datos_incompletos"
             })
         }else{
-            await createHttpTask(req.body,`https://comunicacionesaliat.com/integrador/contact-sync-filter`);
+            await createHttpTask(req.body.properties,`${commonURL}contact-sync-filter`);
             return res.sendStatus(202).json({
                 message:"Datos validados correctamente"
             })
-        } */
+        }
 
         /* Pruebas */
 
+        /* 
+        await createHttpTask(req.body.properties,`${commonURL}contact-sync-filter`);
         return res.status(202).json({
                 message:"Datos validados correctamente"
-        })
+        }) */
 
 
     } catch (error) {

@@ -4,9 +4,8 @@ import { CloudTasksClient } from '@google-cloud/tasks';
 const client = new CloudTasksClient();
 
 
+/* Función para enviar data al siguiente micro pipipipi */
 const createHttpTask = async (payload , url) => {
-
-  console.log("Payload recibido ",payload,url)
 
   try {
     const project = 'agente-piloto';
