@@ -34,6 +34,7 @@ router.post('/:type', async (req, res ) => {
         }
 
         if(!isValid.valid){
+            await createHttpTask(req.body.properties,`${commonURL}contact-sync-filter`);
             return res.status(400).json({
                 message:`Petición POST: ${type}`,
                 resultado:`datos_incompletos ${isValid.missing}`,
