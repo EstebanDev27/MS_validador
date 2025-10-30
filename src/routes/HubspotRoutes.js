@@ -35,7 +35,7 @@ router.post('/:type', async (req, res ) => {
 
         console.log(` URL a enviar al task${commonURL}${type}`)
         
-        await createHttpTask(req.body.properties,`${commonURL}${type}`);
+        await createHttpTask(req.body.properties,`${commonURL}contact-sync-filter`);
 
         /* if(!isValid.valid){
             return res.status(400).json({
