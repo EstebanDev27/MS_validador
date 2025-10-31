@@ -40,7 +40,7 @@ const createHttpTask = async (payload, url) => {
     );
 
     console.log('Created task xdxdxd', data?.name);
-    
+    return;
   } catch (error) {
     // Log útil para depurar respuesta de la API
     if (error.response) {
