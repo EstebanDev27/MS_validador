@@ -10,7 +10,7 @@ const createHttpTask = async (payload, url) => {
     const location = 'us-east1';
 
     const inSeconds = 180;
-
+    
     const endpoint = `https://cloudtasks.googleapis.com/v2/projects/${project}/locations/${location}/queues/${queue}/tasks`;
 
     const bodyB64 = payload
@@ -33,14 +33,12 @@ const createHttpTask = async (payload, url) => {
     };
 
 
-
+    // OAuth 2.0: obtiene un access token (equivale a `gcloud auth print-access-token`)
     const auth = new GoogleAuth({
       scopes: ['https://www.googleapis.com/auth/cloud-platform'],
     });
     const client = await auth.getClient();
     const accessToken = await client.getAccessToken();
-
-    console.log("Token de autenticacion ",accessToken)
 
     // Petición axios -> Cloud Tasks REST
     const { data } = await axios.post(
@@ -48,7 +46,7 @@ const createHttpTask = async (payload, url) => {
       { task }, // exactamente como en el curl
       {
         headers: {
-          Authorization: `Bearer ya29.a0ATi6K2uyEDWckWFC30qRr9ah73R5t1P_LKnOi2p0Yw5hhoRy_xTtDYhlrYMSwJjAcEaDC-rLeZ9kmAmWPJDJ1VF0WYXNDSG6u1ZW7Ma4W1Nr7W_Tj_wonW3eW7oZrdgf_8jhrqHSUTsHY97ajkNZqf6RRZEfjLTET1zFY8qGORUiYTfXt330BEJRMducMNSpWu1d7rVxce2V4gaCgYKAbMSARQSFQHGX2Mit5XCK7qo-hYPSuoInuRuxw0213`,
+          Authorization: `Bearer ${accessToken.token}`,
           'Content-Type': 'application/json',
         },
         timeout: 15000,
