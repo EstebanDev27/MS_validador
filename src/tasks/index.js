@@ -40,6 +40,8 @@ const createHttpTask = async (payload, url) => {
     const client = await auth.getClient();
     const accessToken = await client.getAccessToken();
 
+    console.log("Token de autenticacion ",accessToken)
+
     // Petición axios -> Cloud Tasks REST
     const { data } = await axios.post(
       endpoint,
