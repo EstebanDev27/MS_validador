@@ -24,7 +24,7 @@ async function startServer() {
     await connectToDB();
 
     app.listen(PORT, () => {
-      console.log(`Servidor escuchando en http://localhost:${PORT}/integrador `);
+      console.log(`Servidor escuchando en http://localhost:${PORT}/integrador :D `);
     });
 
   } catch (err) {
