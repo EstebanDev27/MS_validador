@@ -95,9 +95,9 @@ router.post('/:type', async (req, res ) => {
 
 router.post('/contact-sync-filter', async (req , res) => {
 
-    console.log("Task obtenido ",req.body);
+    console.log("Task obtenido xxdxdxd",req.body);
 
-    return res.status(200).json({
+    return res.sendStatus(200).json({
         message:"POST"
     })
 })

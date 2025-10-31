@@ -1,6 +1,5 @@
 // createHttpTask.js
 import axios from 'axios';
-import { GoogleAuth } from 'google-auth-library';
 
 /* Función para enviar data al siguiente micro pipipipi */
 const createHttpTask = async (payload, url) => {
@@ -8,16 +7,11 @@ const createHttpTask = async (payload, url) => {
     const project = 'agente-piloto';
     const queue = 'dynamics-integration-queue';
     const location = 'us-east1';
-
-    const inSeconds = 180;
     
     const endpoint = `https://cloudtasks.googleapis.com/v2/projects/${project}/locations/${location}/queues/${queue}/tasks`;
 
-    const bodyB64 = payload
-      ? Buffer.from(JSON.stringify(payload)).toString('base64')
-      : undefined;
+    const bodyB64 = Buffer.from(JSON.stringify(payload)).toString('base64')
 
-    // Task equivalente al curl (nota: camelCase en oidcToken, httpMethod, etc.)
     const task = {
       httpRequest: {
         httpMethod: 'POST',
@@ -25,7 +19,7 @@ const createHttpTask = async (payload, url) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        ...(bodyB64 ? { body: bodyB64 } : {}),
+        body: bodyB64,
         oidcToken: {
           serviceAccountEmail: 'cloud-tasks-gsa@agente-piloto.iam.gserviceaccount.com',
         },
@@ -33,17 +27,9 @@ const createHttpTask = async (payload, url) => {
     };
 
 
-    // OAuth 2.0: obtiene un access token (equivale a `gcloud auth print-access-token`)
-    const auth = new GoogleAuth({
-      scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-    });
-    const client = await auth.getClient();
-    const accessToken = await client.getAccessToken();
-
-    // Petición axios -> Cloud Tasks REST
     const { data } = await axios.post(
       endpoint,
-      { task }, // exactamente como en el curl
+      { task },
       {
         headers: {
           Authorization: `Bearer ya29.a0ATi6K2uyEDWckWFC30qRr9ah73R5t1P_LKnOi2p0Yw5hhoRy_xTtDYhlrYMSwJjAcEaDC-rLeZ9kmAmWPJDJ1VF0WYXNDSG6u1ZW7Ma4W1Nr7W_Tj_wonW3eW7oZrdgf_8jhrqHSUTsHY97ajkNZqf6RRZEfjLTET1zFY8qGORUiYTfXt330BEJRMducMNSpWu1d7rVxce2V4gaCgYKAbMSARQSFQHGX2Mit5XCK7qo-hYPSuoInuRuxw0213`,
