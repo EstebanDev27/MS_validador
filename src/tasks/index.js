@@ -10,7 +10,7 @@ const createHttpTask = async (payload, url) => {
     
     const endpoint = `https://cloudtasks.googleapis.com/v2/projects/${project}/locations/${location}/queues/${queue}/tasks`;
 
-    const bodyB64 = Buffer.from(JSON.stringify(payload)).toString('base64')
+    const bodyB64 = payload ? Buffer.from(JSON.stringify(payload)).toString('base64') : undefined;
 
     const task = {
       httpRequest: {
@@ -19,7 +19,7 @@ const createHttpTask = async (payload, url) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: bodyB64,
+        ...(bodyB64 ? { body: bodyB64 } : {}),
         oidcToken: {
           serviceAccountEmail: 'cloud-tasks-gsa@agente-piloto.iam.gserviceaccount.com',
         },
