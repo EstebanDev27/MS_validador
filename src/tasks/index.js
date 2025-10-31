@@ -9,13 +9,10 @@ const createHttpTask = async (payload, url) => {
     const queue = 'dynamics-integration-queue';
     const location = 'us-east1';
 
-    // Si quieres programarla al futuro, ajusta este valor (segundos). 0 = inmediata.
     const inSeconds = 180;
 
-    // Endpoint REST (igual que en el curl)
     const endpoint = `https://cloudtasks.googleapis.com/v2/projects/${project}/locations/${location}/queues/${queue}/tasks`;
 
-    // Cuerpo en base64 (Cloud Tasks pide body string base64)
     const bodyB64 = payload
       ? Buffer.from(JSON.stringify(payload)).toString('base64')
       : undefined;
@@ -31,19 +28,12 @@ const createHttpTask = async (payload, url) => {
         ...(bodyB64 ? { body: bodyB64 } : {}),
         oidcToken: {
           serviceAccountEmail: 'cloud-tasks-gsa@agente-piloto.iam.gserviceaccount.com',
-          // audience: url, // descomenta si tu endpoint valida 'aud'
         },
       },
     };
 
-    // Programación futura (opcional), igual que hacías antes
-    if (inSeconds && Number(inSeconds) > 0) {
-      task.scheduleTime = {
-        seconds: Math.floor(Date.now() / 1000) + Number(inSeconds),
-      };
-    }
 
-    // OAuth 2.0: obtiene un access token (equivale a `gcloud auth print-access-token`)
+
     const auth = new GoogleAuth({
       scopes: ['https://www.googleapis.com/auth/cloud-platform'],
     });
@@ -56,7 +46,7 @@ const createHttpTask = async (payload, url) => {
       { task }, // exactamente como en el curl
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ya29.a0ATi6K2uyEDWckWFC30qRr9ah73R5t1P_LKnOi2p0Yw5hhoRy_xTtDYhlrYMSwJjAcEaDC-rLeZ9kmAmWPJDJ1VF0WYXNDSG6u1ZW7Ma4W1Nr7W_Tj_wonW3eW7oZrdgf_8jhrqHSUTsHY97ajkNZqf6RRZEfjLTET1zFY8qGORUiYTfXt330BEJRMducMNSpWu1d7rVxce2V4gaCgYKAbMSARQSFQHGX2Mit5XCK7qo-hYPSuoInuRuxw0213`,
           'Content-Type': 'application/json',
         },
         timeout: 15000,
