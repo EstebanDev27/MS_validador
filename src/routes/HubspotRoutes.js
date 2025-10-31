@@ -8,6 +8,10 @@ import createHttpTask from "../tasks/index.js";
 
 const router = Router();
 
+/* Primer ruta. 
+    Valida el payload de las peticiones que llegan de HubSpot y en dado caso, retorna propiedades faltantes
+    Almacena logs en base mongo
+*/
 router.post('/:type', async (req, res ) => {
 
     const commonURL = "https://comunicacionesaliat.com/integrador/";
@@ -59,7 +63,7 @@ router.post('/:type', async (req, res ) => {
                 break;
         }
 
-        if(!isValid.valid){
+        /* if(!isValid.valid){
             return res.status(400).json({
                 message:`Petición POST: ${type}`,
                 resultado:`datos_incompletos ${isValid.missing}`,
@@ -70,15 +74,15 @@ router.post('/:type', async (req, res ) => {
             return res.sendStatus(202).json({
                 message:"Datos validados correctamente"
             })
-        }
+        } */
 
         /* Pruebas */
 
-        /* 
+        
         await createHttpTask(req.body.properties,`${commonURL}contact-sync-filter`);
         return res.status(202).json({
                 message:"Datos validados correctamente"
-        }) */
+        })
 
 
     } catch (error) {
@@ -90,7 +94,10 @@ router.post('/:type', async (req, res ) => {
 })
 
 router.post('/contact-sync-filter', async (req , res) => {
-    res.status(200).json({
+
+    console.log("Task obtenido ",req.body);
+
+    return res.status(200).json({
         message:"POST"
     })
 })
