@@ -1,60 +1,78 @@
 import { CloudTasksClient } from '@google-cloud/tasks';
 
-// Instantiates a client.
 const client = new CloudTasksClient();
 
-
-/* Función para enviar data al siguiente micro pipipipi */
-const createHttpTask = async (payload , url) => {
+/**
+ * Crea una tarea HTTP en Cloud Tasks, equivalente al curl que usaste.
+ * @param {object} payload - Objeto JSON que se enviará al endpoint (se codifica en base64).
+ * @param {string} url - URL del microservicio que procesará la tarea.
+ * @param {object} opts - Opcional: configuración.
+ * @param {string} [opts.project='agente-piloto']
+ * @param {string} [opts.queue='dynamics-integration-queue']
+ * @param {string} [opts.location='us-east1']
+ * @param {string} [opts.serviceAccountEmail='cloud-tasks-gsa@agente-piloto.iam.gserviceaccount.com']
+ * @param {number} [opts.delaySeconds=0] - Segundos en el futuro para programar la ejecución.
+ * @param {string} [opts.audience] - Si tu endpoint valida aud, pon aquí la misma URL o un aud esperado.
+ * @param {Record<string,string>} [opts.extraHeaders] - Headers adicionales (p.ej. {'x-process-key':'clave123'}).
+ */
+const createHttpTask = async (
+  payload,
+  url,
+  opts = {}
+) => {
+  const {
+    project = 'agente-piloto',
+    queue = 'dynamics-integration-queue',
+    location = 'us-east1',
+    serviceAccountEmail = 'cloud-tasks-gsa@agente-piloto.iam.gserviceaccount.com',
+    delaySeconds = 0,
+    audience, // opcional
+  } = opts;
 
   try {
-    const project = 'agente-piloto';
-    const queue = 'dynamics-integration-queue';
-    const location = 'us-east1';
-  
-    const inSeconds = 180;
-    
-    
-    // Construct the fully qualified queue name.
+    // Nombre completo de la cola
     const parent = client.queuePath(project, location, queue);
-    
+
+    // Headers como en el curl (application/json) + extras si aplican
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    // Cuerpo en base64 (Cloud Tasks espera string base64)
+    const bodyB64 = payload
+      ? Buffer.from(JSON.stringify(payload)).toString('base64')
+      : undefined;
+
+    // Estructura equivalente al curl (nota: camelCase en oidcToken)
     const task = {
       httpRequest: {
-        headers: {
-          'Content-Type': 'text/plain',
-        },
         httpMethod: 'POST',
-        url,                
-        oidc_token: {
-            "service_account_email": "cloud-tasks-gsa@agente-piloto.iam.gserviceaccount.com",     
-        }
+        url,
+        headers,
+        ...(bodyB64 ? { body: bodyB64 } : {}),
+        oidcToken: {
+          serviceAccountEmail,
+          ...(audience ? { audience } : {}),
+        },
       },
     };
-    
-    if (payload) {
-      task.httpRequest.body = Buffer.from(JSON.stringify(payload)).toString('base64');
-    }
-    
-    if (inSeconds) {
-      // The time when the task is scheduled to be attempted.
+
+    // Programación en el futuro (opcional)
+    if (delaySeconds && delaySeconds > 0) {
       task.scheduleTime = {
-        seconds: parseInt(inSeconds) + Date.now() / 1000,
+        seconds: Math.floor(Date.now() / 1000) + Number(delaySeconds),
       };
     }
-    
-    // Send create task request.
-    console.log('Sending task:');
-    console.log(task);
-    const request = {parent: parent, task: task};
-    const [response] = await client.createTask(request);
 
+    console.log('Sending task:', JSON.stringify(task, null, 2));
+
+    const [response] = await client.createTask({ parent, task });
     console.log(`Created task ${response.name}`);
-    
+    return response;
   } catch (error) {
-    console.log("Error al crear tarea ",error)
+    console.error('Error al crear tarea', error);
+    throw error;
   }
-
-
-}
+};
 
 export default createHttpTask;
