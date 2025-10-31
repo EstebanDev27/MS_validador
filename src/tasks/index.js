@@ -24,7 +24,10 @@ const createHttpTask = async (payload , url) => {
           'Content-Type': 'text/plain',
         },
         httpMethod: 'POST',
-        url,
+        url,                
+        oidc_token: {
+            "service_account_email": "cloud-tasks-gsa@agente-piloto.iam.gserviceaccount.com",     
+        }
       },
     };
     
@@ -44,6 +47,7 @@ const createHttpTask = async (payload , url) => {
     console.log(task);
     const request = {parent: parent, task: task};
     const [response] = await client.createTask(request);
+
     console.log(`Created task ${response.name}`);
     
   } catch (error) {
